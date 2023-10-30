@@ -37,8 +37,6 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _buildProductCategory(index: 0, name: 'AllProducts'),
-              _buildProductCategory(index: 1, name: 'CPU'),
-              _buildProductCategory(index: 2, name: 'VideoCard'),
             ],
           ),
           const SizedBox(height: 20),
