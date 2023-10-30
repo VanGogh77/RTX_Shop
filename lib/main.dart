@@ -84,10 +84,6 @@ class _MyHomePageState extends State<MyHomePage> {
             label: 'Favorite',
             icon: Icon(Icons.favorite),
           ),
-          BottomNavigationBarItem(
-            label: 'Profile',
-            icon: Icon(Icons.person),
-          ),
         ],
       ),
     );
