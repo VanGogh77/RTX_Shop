@@ -41,11 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           const SizedBox(height: 20),
           Expanded(
-            child: isSelected == 0
-                ? _buildAllProducts()
-                : isSelected == 1
-                  ? _buildCPUs()
-                  : _buildCards(),
+            child: _buildAllProducts()
           ),
         ],
       ),
@@ -94,47 +90,4 @@ class _HomeScreenState extends State<HomeScreen> {
     },
   );
 
-  _buildCPUs() => GridView.builder(
-    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount: 2,
-      childAspectRatio: (100 / 140),
-      crossAxisSpacing: 12,
-      mainAxisSpacing: 12,
-    ),
-    scrollDirection: Axis.vertical,
-    itemCount: MyProduct.CPU.length,
-    itemBuilder: (context, index) {
-      final cpuList = MyProduct.CPU[index];
-      return GestureDetector(
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => DetailsScreen(product: cpuList),
-          ),
-        ),
-      );
-    },
-  );
-
-  _buildCards() => GridView.builder(
-    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount: 2,
-      childAspectRatio: (100 / 140),
-      crossAxisSpacing: 12,
-      mainAxisSpacing: 12,
-    ),
-    scrollDirection: Axis.vertical,
-    itemCount: MyProduct.VideoCard.length,
-    itemBuilder: (context, index) {
-      final cardsList = MyProduct.VideoCard[index];
-      return GestureDetector(
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => DetailsScreen(product: cardsList),
-          ),
-        ),
-      );
-    },
-  );
 }
