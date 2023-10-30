@@ -1,6 +1,8 @@
 # shop_rtx
 
-A new Flutter project.
+My first test project on flutter --Online Store. During development I used Android Studio, virtual device Pixel
+6 Pro on API 33.
+
 
 ## Getting Started
 
