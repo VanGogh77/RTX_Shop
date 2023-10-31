@@ -1,4 +1,5 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:shop_rtx/models/my_product.dart';
 import 'package:shop_rtx/pages/details_screen.dart';
@@ -41,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           const SizedBox(height: 20),
           Expanded(
-            child: _buildAllProducts()
+              child: _buildAllProducts()
           ),
         ],
       ),

@@ -30,7 +30,7 @@ class _CartDetailsState extends State<CartDetails> {
         child: Container(
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: Colors.yellow.shade600,
+            color: Colors.green.shade600,
           ),
           child: Icon(
             icon,
