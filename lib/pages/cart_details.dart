@@ -29,7 +29,7 @@ class _CartDetailsState extends State<CartDetails> {
         child: Container(
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: Colors.green.shade600,
+            color: Colors.yellow.shade600,
           ),
           child: Icon(
             icon,
@@ -73,6 +73,7 @@ class _CartDetailsState extends State<CartDetails> {
                       title: Text(
                         finalList[index].name,
                         style: const TextStyle(
+                          color: Colors.green,
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -81,6 +82,7 @@ class _CartDetailsState extends State<CartDetails> {
                         '\$${finalList[index].price}',
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
+                          color: Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
@@ -103,7 +105,7 @@ class _CartDetailsState extends State<CartDetails> {
                           _buildPRoductQuantity(Icons.remove, index),
                         ],
                       ),
-                      tileColor: Colors.grey.shade700,
+                      tileColor: Colors.grey.shade900,
                     ),
                   ),
                 );
@@ -128,14 +130,24 @@ class _CartDetailsState extends State<CartDetails> {
                 Text(
                   '\$${provider.getTotalPrice()}',
                   style: const TextStyle(
+                    color: Colors.white,
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.send),
-                  label: const Text('Check out'),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => const AlertDialog(
+                        title: Text(
+                          'Purchase successful',
+                        ),
+                      )
+                    );
+                  },
+                  icon: const Icon(Icons.sell_outlined),
+                  label: const Text('Purchase'),
                 ),
               ],
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_rtx/providers/favorite_provider.dart';
+import 'package:shop_rtx/providers/cart_provider.dart';
 import '../models/product.dart';
 
 
@@ -18,6 +19,7 @@ class _ProductCardState extends State<ProductCard> {
   @override
   Widget build(BuildContext context) {
     final provider = FavoriteProvider.of(context);
+    final _provider = CartProvider.of(context);
     return Container(
       width: MediaQuery.of(context).size.width / 2,
       padding: const EdgeInsets.all(10),
@@ -63,15 +65,31 @@ class _ProductCardState extends State<ProductCard> {
               color: Colors.lightGreen,
             ),
           ),
-          Text(
-              '\$' '${widget.product.price}',
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '\$' '${widget.product.price}',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () => _provider.toggleProduct(widget.product),
+                  child: Icon(
+                    _provider.isExist(widget.product)
+                        ? Icons.shopping_cart
+                        : Icons.shopping_cart_checkout_outlined,
+                    color: Colors.red,
+                  ),
+                ),
+              ],
             ),
           ),
-
         ],
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../pages/cart_details.dart';
 import '../models/product.dart';
@@ -17,6 +18,17 @@ class DetailsScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Details'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const CartDetails(),
+              ),
+            ),
+            icon: const Icon(Icons.add_shopping_cart),
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -103,17 +115,19 @@ class DetailsScreen extends StatelessWidget {
                 ),
               ),
               ElevatedButton.icon(
-                  onPressed: () {
-                    provider.toggleProduct(product);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const CartDetails(),
+                onPressed: () {
+                  provider.toggleProduct(product);
+                  showDialog(
+                    context: context,
+                    builder: (context) => const AlertDialog(
+                      title: Text(
+                          'Successfully added to cart',
                       ),
-                    );
-                  },
-                  icon: const Icon(Icons.send),
-                  label: const Text('Add to cart'),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.shopping_cart),
+                label: const Text('Add to cart'),
               ),
             ],
           ),

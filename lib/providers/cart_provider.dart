@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/product.dart';
+import 'package:shop_rtx/models/product.dart';
 
 
 class CartProvider extends ChangeNotifier {
@@ -8,20 +8,30 @@ class CartProvider extends ChangeNotifier {
   List<Product> get cart => _cart;
 
   void toggleProduct(Product product) {
-
     if (_cart.contains(product)) {
-      for (Product element in _cart) {
-        element.quantity++;
-      }
+      _cart.remove(product);
     } else {
       _cart.add(product);
     }
-
     notifyListeners();
   }
 
+  bool isExist(Product product) {
+    final isExist = _cart.contains(product);
+    return isExist;
+  }
+
   incrementQuantity(int index) => _cart[index].quantity++;
-  decrementQuantity(int index) => _cart[index].quantity--;
+  void decrementQuantity(int index) {
+    if (index >= 0 && index < _cart.length) {
+      if (_cart[index].quantity > 1) {
+        _cart[index].quantity--;
+        notifyListeners();
+      } else {
+        _cart.removeAt(index);
+      }
+    }
+  }
 
   getTotalPrice() {
     double total = 0.0;
