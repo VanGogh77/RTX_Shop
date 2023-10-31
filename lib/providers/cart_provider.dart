@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_rtx/models/product.dart';
+import '../models/my_product.dart';
 
 
 class CartProvider extends ChangeNotifier {
@@ -16,12 +16,17 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void clearCart() {
+    _cart.clear();
+    notifyListeners();
+  }
+
   bool isExist(Product product) {
     final isExist = _cart.contains(product);
     return isExist;
   }
 
-  incrementQuantity(int index) => _cart[index].quantity++;
+  void incrementQuantity(int index) => _cart[index].quantity++;
   void decrementQuantity(int index) {
     if (index >= 0 && index < _cart.length) {
       if (_cart[index].quantity > 1) {

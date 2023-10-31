@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:shop_rtx/pages/cart_details.dart';
 import 'package:shop_rtx/pages/favorite_screen.dart';
 import 'package:shop_rtx/pages/home_screen.dart';
-import 'package:shop_rtx/pages/profile_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_rtx/providers/cart_provider.dart';
 import 'package:shop_rtx/providers/favorite_provider.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -46,7 +46,6 @@ class _MyHomePageState extends State<MyHomePage> {
   List screens = [
     const HomeScreen(),
     const FavoriteScreen(),
-    const ProfileScreen(),
   ];
 
   @override

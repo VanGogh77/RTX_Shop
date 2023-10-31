@@ -1,8 +1,26 @@
-import 'product.dart';
+
+class Product {
+  final int id;
+  final String name;
+  final String category;
+  final String image;
+  final String description;
+  final double price;
+  int quantity;
+  Product({
+    required this.id,
+    required this.name,
+    required this.category,
+    required this.image,
+    required this.description,
+    required this.price,
+    required this.quantity,
+  });
+}
 
 
 class MyProduct {
-  static List<Product> AllProducts = [
+  static List<Product> allProducts = [
     Product(
         id: 1,
         name: 'MSI GeForce GTX 1050Ti',
@@ -53,7 +71,7 @@ class MyProduct {
       name: 'Intel Core i7',
       category: 'CPU',
       image: 'images/cpu/i7.png',
-      description: 'Процессор Intel Core i5-11700F OEM – отличный выбор для пользователей, желающих собрать игровой ПК или производительный универсальный компьютер. ',
+      description: 'Процессор Intel Core i7-11700F OEM – отличный выбор для пользователей, желающих собрать игровой ПК или производительный универсальный компьютер. ',
       price: 193.0,
       quantity: 1,
     ),
@@ -64,6 +82,33 @@ class MyProduct {
       image: 'images/cpu/i9.png',
       description: '16-ядерный процессор Intel Core i9-12900K BOX рассчитан на комплектацию мощного игрового ПК или высокопроизводительной рабочей станции.',
       price: 514.0,
+      quantity: 1,
+    ),
+    Product(
+      id: 8,
+      name: 'WaterCool',
+      category: 'Cooling',
+      image: 'images/cooling/water2.png',
+      description: '',
+      price: 222.0,
+      quantity: 1,
+    ),
+    Product(
+      id: 9,
+      name: 'WaterCool',
+      category: 'Cooling',
+      image: 'images/cooling/water2.png',
+      description: '',
+      price: 222.0,
+      quantity: 1,
+    ),
+    Product(
+      id: 10,
+      name: 'WaterCool',
+      category: 'Cooling',
+      image: 'images/cooling/water2.png',
+      description: '',
+      price: 222.0,
       quantity: 1,
     ),
   ];

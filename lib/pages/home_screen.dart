@@ -75,9 +75,9 @@ class _HomeScreenState extends State<HomeScreen> {
       mainAxisSpacing: 12,
     ),
     scrollDirection: Axis.vertical,
-    itemCount: MyProduct.AllProducts.length,
+    itemCount: MyProduct.allProducts.length,
     itemBuilder: (context, index) {
-      final allProducts = MyProduct.AllProducts[index];
+      final allProducts = MyProduct.allProducts[index];
       return GestureDetector(
         onTap: () => Navigator.push(
           context,

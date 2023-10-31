@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:provider/provider.dart';
 import 'package:shop_rtx/providers/cart_provider.dart';
 
 
@@ -88,7 +89,7 @@ class _CartDetailsState extends State<CartDetails> {
                         ),
                       ),
                       leading: CircleAvatar(
-                        radius: 30,
+                        radius: 32,
                         backgroundImage: AssetImage(finalList[index].image),
                         backgroundColor: Colors.green,
                       ),
@@ -137,6 +138,7 @@ class _CartDetailsState extends State<CartDetails> {
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
+                    Provider.of<CartProvider>(context, listen: false).clearCart();
                     showDialog(
                       context: context,
                       builder: (context) => const AlertDialog(
