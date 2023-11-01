@@ -1,8 +1,9 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import '../models/my_product.dart';
 import '../pages/cart_details.dart';
 import '../providers/cart_provider.dart';
-
+import 'package:badges/badges.dart' as badges;
 
 
 
@@ -116,14 +117,6 @@ class DetailsScreen extends StatelessWidget {
               ElevatedButton.icon(
                 onPressed: () {
                   provider.toggleProduct(product);
-                  showDialog(
-                    context: context,
-                    builder: (context) => const AlertDialog(
-                      title: Text(
-                          'Successfully added to cart',
-                      ),
-                    ),
-                  );
                 },
                 icon: const Icon(Icons.shopping_cart),
                 label: const Text('Add to cart'),

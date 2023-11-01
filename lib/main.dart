@@ -7,6 +7,7 @@ import 'package:shop_rtx/pages/home_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_rtx/providers/cart_provider.dart';
 import 'package:shop_rtx/providers/favorite_provider.dart';
+import 'package:badges/badges.dart' as badges;
 
 
 

@@ -9,7 +9,9 @@ class CartProvider extends ChangeNotifier {
 
   void toggleProduct(Product product) {
     if (_cart.contains(product)) {
-      _cart.remove(product);
+      for (Product element in _cart) {
+        element.quantity++;
+      }
     } else {
       _cart.add(product);
     }

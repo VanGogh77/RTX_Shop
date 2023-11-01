@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shop_rtx/providers/favorite_provider.dart';
-import 'package:shop_rtx/providers/cart_provider.dart';
 import '../models/my_product.dart';
 
 
@@ -18,8 +18,7 @@ class ProductCard extends StatefulWidget {
 class _ProductCardState extends State<ProductCard> {
   @override
   Widget build(BuildContext context) {
-    final provider = FavoriteProvider.of(context);
-    final _provider = CartProvider.of(context);
+    final favorite_provider = context.watch<FavoriteProvider>();
     return Container(
       width: MediaQuery.of(context).size.width / 2,
       padding: const EdgeInsets.all(10),
@@ -33,9 +32,9 @@ class _ProductCardState extends State<ProductCard> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               GestureDetector(
-                onTap: () => provider.toggleFavorite(widget.product),
+                onTap: () => favorite_provider.toggleFavorite(widget.product),
                 child: Icon(
-                  provider.isExist(widget.product)
+                  favorite_provider.isExist(widget.product)
                       ? Icons.favorite
                       : Icons.favorite_border_outlined,
                   color: Colors.red,
@@ -68,7 +67,7 @@ class _ProductCardState extends State<ProductCard> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   '\$' '${widget.product.price}',
@@ -76,15 +75,6 @@ class _ProductCardState extends State<ProductCard> {
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () => _provider.toggleProduct(widget.product),
-                  child: Icon(
-                    _provider.isExist(widget.product)
-                        ? Icons.shopping_cart
-                        : Icons.shopping_cart_checkout_outlined,
-                    color: Colors.red,
                   ),
                 ),
               ],
