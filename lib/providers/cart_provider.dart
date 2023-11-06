@@ -4,12 +4,12 @@ import '../models/my_product.dart';
 
 
 class CartProvider extends ChangeNotifier {
-  final List<Product> _cart = [];
-  List<Product> get cart => _cart;
+  final List<Products> _cart = [];
+  List<Products> get cart => _cart;
 
-  void toggleProduct(Product product) {
+  void toggleProduct(Products product) {
     if (_cart.contains(product)) {
-      for (Product element in _cart) {
+      for (Products element in _cart) {
         element.quantity++;
       }
     } else {
@@ -23,7 +23,7 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool isExist(Product product) {
+  bool isExist(Products product) {
     final isExist = _cart.contains(product);
     return isExist;
   }
@@ -42,7 +42,7 @@ class CartProvider extends ChangeNotifier {
 
   getTotalPrice() {
     double total = 0.0;
-    for (Product element in _cart) {
+    for (Products element in _cart) {
       total += element.price * element.quantity;
     }
     return total;

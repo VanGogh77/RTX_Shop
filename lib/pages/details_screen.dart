@@ -8,8 +8,9 @@ import 'package:badges/badges.dart' as badges;
 
 
 class DetailsScreen extends StatelessWidget {
-  final Product product;
+  final Products product;
   const DetailsScreen({super.key, required this.product});
+
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class DetailsScreen extends StatelessWidget {
                 builder: (context) => const CartDetails(),
               ),
             ),
-            icon: const Icon(Icons.add_shopping_cart),
+            icon: const Icon(Icons.shopping_cart),
           ),
         ],
       ),

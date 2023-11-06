@@ -18,7 +18,8 @@ class _CartDetailsState extends State<CartDetails> {
     final provider = CartProvider.of(context);
     final finalList = provider.cart;
 
-    _buildPRoductQuantity(IconData icon, int index) {
+    // ignore: no_leading_underscores_for_local_identifiers
+    Widget _buildPRoductQuantity(IconData icon, int index) {
       return GestureDetector(
         onTap: () {
           setState(() {

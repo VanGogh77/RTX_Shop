@@ -1,5 +1,5 @@
 
-class Product {
+class Products {
   final int id;
   final String name;
   final String category;
@@ -7,7 +7,7 @@ class Product {
   final String description;
   final double price;
   int quantity;
-  Product({
+  Products({
     required this.id,
     required this.name,
     required this.category,
@@ -20,8 +20,8 @@ class Product {
 
 
 class MyProduct {
-  static List<Product> allProducts = [
-    Product(
+  static List<Products> allProducts = [
+    Products(
         id: 1,
         name: 'MSI GeForce GTX 1050Ti',
         category: 'VideoCard',
@@ -30,7 +30,7 @@ class MyProduct {
         price: 95.0,
         quantity: 1,
     ),
-    Product(
+    Products(
       id: 2,
       name: 'MSI GeForce RTX 2060',
       category: 'VideoCard',
@@ -39,7 +39,7 @@ class MyProduct {
       price: 320.0,
       quantity: 1,
     ),
-    Product(
+    Products(
       id: 3,
       name: 'MSI GeForce RTX 3080',
       category: 'VideoCard',
@@ -48,7 +48,7 @@ class MyProduct {
       price: 535.0,
       quantity: 1,
     ),
-    Product(
+    Products(
       id: 4,
       name: 'MSI GeForce RTX 4080',
       category: 'VideoCard',
@@ -57,7 +57,7 @@ class MyProduct {
       price: 1512.0,
       quantity: 1,
     ),
-    Product(
+    Products(
       id: 5,
       name: 'Intel Core i5',
       category: 'CPU',
@@ -66,7 +66,7 @@ class MyProduct {
       price: 150.0,
       quantity: 1,
     ),
-    Product(
+    Products(
       id: 6,
       name: 'Intel Core i7',
       category: 'CPU',
@@ -75,7 +75,7 @@ class MyProduct {
       price: 193.0,
       quantity: 1,
     ),
-    Product(
+    Products(
       id: 7,
       name: 'Intel Core i9',
       category: 'CPU',
@@ -84,7 +84,7 @@ class MyProduct {
       price: 514.0,
       quantity: 1,
     ),
-    Product(
+    Products(
       id: 8,
       name: 'LIAN LI Galahad',
       category: 'Cooling',
@@ -93,7 +93,7 @@ class MyProduct {
       price: 92.0,
       quantity: 1,
     ),
-    Product(
+    Products(
       id: 9,
       name: 'ZOOMFLOW 360X',
       category: 'Cooling',
@@ -102,7 +102,7 @@ class MyProduct {
       price: 70.0,
       quantity: 1,
     ),
-    Product(
+    Products(
       id: 10,
       name: 'Alseye M90',
       category: 'Cooling',

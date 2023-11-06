@@ -4,10 +4,10 @@ import '../models/my_product.dart';
 
 
 class FavoriteProvider extends ChangeNotifier {
-  final List<Product> _favorites = [];
-  List<Product> get favorites => _favorites;
+  final List<Products> _favorites = [];
+  List<Products> get favorites => _favorites;
 
-  void toggleFavorite(Product product) {
+  void toggleFavorite(Products product) {
     if (_favorites.contains(product)) {
       _favorites.remove(product);
     } else {
@@ -16,7 +16,7 @@ class FavoriteProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool isExist(Product product) {
+  bool isExist(Products product) {
       final isExist = _favorites.contains(product);
       return isExist;
     }

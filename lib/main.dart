@@ -1,5 +1,4 @@
 
-
 import 'package:flutter/material.dart';
 import 'package:shop_rtx/pages/cart_details.dart';
 import 'package:shop_rtx/pages/favorite_screen.dart';
@@ -7,7 +6,6 @@ import 'package:shop_rtx/pages/home_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_rtx/providers/cart_provider.dart';
 import 'package:shop_rtx/providers/favorite_provider.dart';
-import 'package:badges/badges.dart' as badges;
 
 
 
@@ -47,7 +45,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   int currentIndex = 0;
-  List screens = [
+  List <Widget>screens = [
     const HomeScreen(),
     const FavoriteScreen(),
   ];
@@ -67,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     builder: (context) => const CartDetails(),
                   ),
                 ),
-            icon: const Icon(Icons.add_shopping_cart),
+            icon: const Icon(Icons.shopping_cart),
           ),
         ],
       ),

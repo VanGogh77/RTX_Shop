@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_rtx/providers/favorite_provider.dart';
-import '../models/my_product.dart';
+import 'package:shop_rtx/models/my_product.dart';
 
 
 class ProductCard extends StatefulWidget {
 
-  final Product product;
+  final Products product;
 
   const ProductCard({super.key, required this.product});
 
@@ -18,7 +18,7 @@ class ProductCard extends StatefulWidget {
 class _ProductCardState extends State<ProductCard> {
   @override
   Widget build(BuildContext context) {
-    final favorite_provider = context.watch<FavoriteProvider>();
+    final favoriteProvider = context.watch<FavoriteProvider>();
     return Container(
       width: MediaQuery.of(context).size.width / 2,
       padding: const EdgeInsets.all(10),
@@ -32,9 +32,9 @@ class _ProductCardState extends State<ProductCard> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               GestureDetector(
-                onTap: () => favorite_provider.toggleFavorite(widget.product),
+                onTap: () => favoriteProvider.toggleFavorite(widget.product),
                 child: Icon(
-                  favorite_provider.isExist(widget.product)
+                  favoriteProvider.isExist(widget.product)
                       ? Icons.favorite
                       : Icons.favorite_border_outlined,
                   color: Colors.red,
