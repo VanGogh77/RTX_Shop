@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-//import 'package:shop_rtx/models/my_product.dart';
 
 import 'package:shop_rtx/models/products.dart';
-import 'package:shop_rtx/pages/details_screen.dart';
 import 'package:shop_rtx/widgets/product_card.dart';
+
+import 'details_screen.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -17,20 +17,20 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List items = [];
+  List<Product> items = [];
 
-  Future<void> readJson() async {
+  Future<List<Product>> readJson() async {
     final String response = await rootBundle.loadString('assets/products.json');
-    final data = await json.decode(response);
-    setState(() {
-      items = data["items"];
-    });
+    final data = await jsonDecode(response);
+    final items = data['items'];
+
+    return items.map((item) => Product.fromJson(item)).toList();
   }
 
   @override
   void initState() {
-    super.initState();
     readJson();
+    super.initState();
   }
 
   int isSelected = 0;
@@ -95,12 +95,12 @@ class _HomeScreenState extends State<HomeScreen> {
     itemBuilder: (context, index) {
       //final allProducts = items[index];
       return GestureDetector(
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => DetailsScreen(product: items[index]),
-          ),
-        ),
+      //  onTap: () => Navigator.push(
+      //    context,
+      //    MaterialPageRoute(
+      //      builder: (context) => DetailsScreen(product: items[index]),
+      //    ),
+      //  ),
         child: Container(
           width: MediaQuery.of(context).size.width / 2,
           padding: const EdgeInsets.all(10),
@@ -114,19 +114,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 130,
                 width: 130,
                 child: Image.asset(
-                  items[index]['image'],
+                  items[index].image,
                   fit: BoxFit.cover,
                 ),
               ),
               Text(
-                items[index]['name'],
+                items[index].name,
                 style: const TextStyle(
                   fontSize: 14,
                   color: Colors.green,
                 ),
               ),
               Text(
-                items[index]['category'],
+                items[index].category,
                 style: const TextStyle(
                   fontSize: 15,
                   color: Colors.lightGreen,
@@ -138,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      '\$' '${items[index]['price']}',
+                      '\$' '${items[index].price}',
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -155,5 +155,3 @@ class _HomeScreenState extends State<HomeScreen> {
     },
   );
 }
-
-
