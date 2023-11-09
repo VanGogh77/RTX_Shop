@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/my_product.dart';
+import 'package:shop_rtx/models/product.dart';
 
 
 class FavoriteProvider extends ChangeNotifier {
-  final List<Products> _favorites = [];
-  List<Products> get favorites => _favorites;
+  final List<Product> _favorites = [];
+  List<Product> get favorites => _favorites;
 
-  void toggleFavorite(Products product) {
+  void toggleFavorite(Product product) {
     if (_favorites.contains(product)) {
       _favorites.remove(product);
     } else {
@@ -16,7 +16,7 @@ class FavoriteProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool isExist(Products product) {
+  bool isExist(Product product) {
       final isExist = _favorites.contains(product);
       return isExist;
     }

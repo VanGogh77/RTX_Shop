@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
-import 'package:shop_rtx/models/products.dart';
-import 'package:shop_rtx/widgets/product_card.dart';
+import 'package:shop_rtx/models/product.dart';
+import 'package:shop_rtx/providers/cart_provider.dart';
+import 'package:shop_rtx/providers/favorite_provider.dart';
 
 import 'details_screen.dart';
 
@@ -24,12 +26,19 @@ class _HomeScreenState extends State<HomeScreen> {
     final data = await jsonDecode(response);
     final items = data['items'];
 
-    return items.map((item) => Product.fromJson(item)).toList();
+    return items.map<Product>((item) => Product.fromJson(item)).toList();
+  }
+
+  Future<void> _loadProducts() async {
+    final jsonProducts = await readJson();
+    setState(() {
+      items.addAll(jsonProducts);
+    });
   }
 
   @override
   void initState() {
-    readJson();
+    _loadProducts();
     super.initState();
   }
 
@@ -57,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           const SizedBox(height: 20),
           Expanded(
-              child: _buildAllProducts(),
+            child: _buildAllProducts(),
           ),
         ],
       ),
@@ -86,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildAllProducts() => GridView.builder(
     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 2,
-      childAspectRatio: (100 / 130),
+      childAspectRatio: (100 / 140),
       crossAxisSpacing: 12,
       mainAxisSpacing: 12,
     ),
@@ -94,25 +103,42 @@ class _HomeScreenState extends State<HomeScreen> {
     itemCount: items.length,
     itemBuilder: (context, index) {
       //final allProducts = items[index];
+      final favorite_provider = context.watch<FavoriteProvider>();
+      final cart_provider = context.watch<CartProvider>();
       return GestureDetector(
-      //  onTap: () => Navigator.push(
-      //    context,
-      //    MaterialPageRoute(
-      //      builder: (context) => DetailsScreen(product: items[index]),
-      //    ),
-      //  ),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DetailsScreen(product: items[index]),
+            ),
+          ),
         child: Container(
           width: MediaQuery.of(context).size.width / 2,
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(8),
             color: Colors.grey.withOpacity(0.1),
           ),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () => favorite_provider.toggleFavorite(items[index]),
+                    child: Icon(
+                      favorite_provider.isExist(items[index])
+                          ? Icons.favorite
+                          : Icons.favorite_border_outlined,
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
+              ),
               SizedBox(
-                height: 130,
-                width: 130,
+                height: 125,
+                width: 125,
                 child: Image.asset(
                   items[index].image,
                   fit: BoxFit.cover,
@@ -128,14 +154,14 @@ class _HomeScreenState extends State<HomeScreen> {
               Text(
                 items[index].category,
                 style: const TextStyle(
-                  fontSize: 15,
+                  fontSize: 14,
                   color: Colors.lightGreen,
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       '\$' '${items[index].price}',
@@ -145,6 +171,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Colors.white,
                       ),
                     ),
+                    GestureDetector(
+                      onTap: () => cart_provider.toggleProduct(items[index]),
+                      child: Icon(
+                        cart_provider.isExist(items[index])
+                            ? Icons.shopping_cart
+                            : Icons.shopping_cart_checkout_outlined,
+                        color: Colors.red,
+                      ),
+                    )
                   ],
                 ),
               ),

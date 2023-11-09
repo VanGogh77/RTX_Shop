@@ -60,7 +60,6 @@ class _CartDetailsState extends State<CartDetails> {
                       children: [
                         SlidableAction(
                           onPressed: (context) {
-                            finalList[index].quantity = 1;
                             finalList.removeAt(index);
                             setState(() {});
                           },

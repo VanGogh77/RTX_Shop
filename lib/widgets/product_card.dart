@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_rtx/providers/favorite_provider.dart';
-import 'package:shop_rtx/models/my_product.dart';
+import 'package:shop_rtx/models/product.dart';
 
 
 class ProductCard extends StatefulWidget {
 
-  final Products product;
+  final Product product;
 
   const ProductCard({super.key, required this.product});
 

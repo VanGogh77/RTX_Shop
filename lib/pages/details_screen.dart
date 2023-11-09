@@ -1,14 +1,14 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import '../models/my_product.dart';
-import '../pages/cart_details.dart';
-import '../providers/cart_provider.dart';
-import 'package:badges/badges.dart' as badges;
+//import '../models/my_product.dart';
+import 'package:shop_rtx/pages/cart_details.dart';
+import 'package:shop_rtx/providers/cart_provider.dart';
+import 'package:shop_rtx/models/product.dart';
 
 
 
 class DetailsScreen extends StatelessWidget {
-  final Products product;
+  final Product product;
   const DetailsScreen({super.key, required this.product});
 
 

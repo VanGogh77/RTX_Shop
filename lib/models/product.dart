@@ -7,7 +7,7 @@ class Product {
   late final String image;
   late final String description;
   late final String category;
-  late final int quantity;
+  late int quantity;
 
   Product({
     required this.id,

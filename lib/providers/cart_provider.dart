@@ -1,48 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/my_product.dart';
+import 'package:shop_rtx/models/product.dart';
 
 
 class CartProvider extends ChangeNotifier {
-  final List<Products> _cart = [];
-  List<Products> get cart => _cart;
+  final List<Product> items = [];
+  List<Product> get cart => items;
 
-  void toggleProduct(Products product) {
-    if (_cart.contains(product)) {
-      for (Products element in _cart) {
+  void toggleProduct(Product product) {
+    if (items.contains(product)) {
+      for (Product element in items) {
         element.quantity++;
       }
     } else {
-      _cart.add(product);
+      items.add(product);
     }
     notifyListeners();
   }
 
   void clearCart() {
-    _cart.clear();
+    items.clear();
     notifyListeners();
   }
 
-  bool isExist(Products product) {
-    final isExist = _cart.contains(product);
+  bool isExist(Product product) {
+    final isExist = items.contains(product);
     return isExist;
   }
 
-  void incrementQuantity(int index) => _cart[index].quantity++;
+  void incrementQuantity(int index) {
+    items[index].quantity ++;
+  }
   void decrementQuantity(int index) {
-    if (index >= 0 && index < _cart.length) {
-      if (_cart[index].quantity > 1) {
-        _cart[index].quantity--;
+    if (index >= 0 && index < items.length) {
+      if (items[index].quantity > 1) {
+        items[index].quantity--;
         notifyListeners();
       } else {
-        _cart.removeAt(index);
+        items.removeAt(index);
       }
     }
   }
 
   getTotalPrice() {
     double total = 0.0;
-    for (Products element in _cart) {
+    for (Product element in items) {
       total += element.price * element.quantity;
     }
     return total;
