@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shop_rtx/providers/favorite_provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+import 'package:shop_rtx/models/product.dart';
+
 
 class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen({super.key});
@@ -9,7 +11,6 @@ class FavoriteScreen extends StatefulWidget {
   @override
   State<FavoriteScreen> createState() => _FavoriteScreenState();
 }
-
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
   @override
@@ -92,3 +93,4 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     );
   }
 }
+

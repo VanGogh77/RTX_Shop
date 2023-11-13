@@ -1,6 +1,5 @@
 
 class Product {
-
   late final int id;
   late final String name;
   late final double price;

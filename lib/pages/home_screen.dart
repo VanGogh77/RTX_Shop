@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
-  int isSelected = 0;
+  int selectedCategoryIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -75,14 +75,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildProductCategory({required int index, required String name}) =>
       GestureDetector(
-        onTap: () => setState(() => isSelected = index),
+        onTap: () => setState(() => selectedCategoryIndex = index),
         child: Container(
           width: 100,
           height: 40,
           margin: const EdgeInsets.only(top: 10, right: 10),
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: isSelected == index ? Colors.green.shade900 : Colors.green.shade600,
+            color: selectedCategoryIndex == index ? Colors.green.shade900 : Colors.green.shade600,
             borderRadius: BorderRadius.circular(8),
           ),
           child: Text(
@@ -103,8 +103,8 @@ class _HomeScreenState extends State<HomeScreen> {
     itemCount: items.length,
     itemBuilder: (context, index) {
       //final allProducts = items[index];
-      final favorite_provider = context.watch<FavoriteProvider>();
-      final cart_provider = context.watch<CartProvider>();
+      final favoriteProvider = context.watch<FavoriteProvider>();
+      final cartProvider = context.watch<CartProvider>();
       return GestureDetector(
           onTap: () => Navigator.push(
             context,
@@ -126,9 +126,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   GestureDetector(
-                    onTap: () => favorite_provider.toggleFavorite(items[index]),
+                    onTap: () => favoriteProvider.toggleFavorite(items[index]),
                     child: Icon(
-                      favorite_provider.isExist(items[index])
+                      favoriteProvider.isExist(items[index])
                           ? Icons.favorite
                           : Icons.favorite_border_outlined,
                       color: Colors.red,
@@ -172,9 +172,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () => cart_provider.toggleProduct(items[index]),
+                      onTap: () => cartProvider.toggleProduct(items[index]),
                       child: Icon(
-                        cart_provider.isExist(items[index])
+                        cartProvider.isExist(items[index])
                             ? Icons.shopping_cart
                             : Icons.shopping_cart_checkout_outlined,
                         color: Colors.red,

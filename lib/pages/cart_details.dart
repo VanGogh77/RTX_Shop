@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_rtx/models/db_product.dart';
 import 'package:shop_rtx/providers/cart_provider.dart';
 
 
@@ -99,6 +100,7 @@ class _CartDetailsState extends State<CartDetails> {
                           Text(
                             finalList[index].quantity.toString(),
                             style: const TextStyle(
+                              color: Colors.white,
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
                             ),

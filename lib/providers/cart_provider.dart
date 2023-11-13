@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_rtx/models/product.dart';
 
-
 class CartProvider extends ChangeNotifier {
-  final List<Product> items = [];
+  List<Product> items = [];
   List<Product> get cart => items;
 
   void toggleProduct(Product product) {

@@ -1,9 +1,8 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-//import '../models/my_product.dart';
 import 'package:shop_rtx/pages/cart_details.dart';
 import 'package:shop_rtx/providers/cart_provider.dart';
 import 'package:shop_rtx/models/product.dart';
+import 'package:shop_rtx/models/db_product.dart';
 
 
 
