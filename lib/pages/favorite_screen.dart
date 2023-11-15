@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_rtx/models/db_product.dart';
 import 'package:shop_rtx/providers/favorite_provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-
-import 'package:shop_rtx/models/product.dart';
 
 
 class FavoriteScreen extends StatefulWidget {
@@ -13,6 +13,14 @@ class FavoriteScreen extends StatefulWidget {
 }
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
+  DBHelper? dbHelper = DBHelper();
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<FavoriteProvider>().getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = FavoriteProvider.of(context);
@@ -47,6 +55,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                       children: [
                         SlidableAction(
                           onPressed: (context) {
+                            dbHelper!.deleteFavoriteItem(
+                              provider.favorites[index].id
+                            );
                             finalList.removeAt(index);
                             setState(() {});
                           },

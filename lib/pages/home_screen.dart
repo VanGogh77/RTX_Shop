@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_rtx/models/db_product.dart';
 
 import 'package:shop_rtx/models/product.dart';
 import 'package:shop_rtx/providers/cart_provider.dart';
@@ -19,6 +20,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  DBHelper dbHelper = DBHelper();
   List<Product> items = [];
 
   Future<List<Product>> readJson() async {
@@ -102,7 +104,21 @@ class _HomeScreenState extends State<HomeScreen> {
     scrollDirection: Axis.vertical,
     itemCount: items.length,
     itemBuilder: (context, index) {
-      //final allProducts = items[index];
+      final favorite = Provider.of<FavoriteProvider>(context);
+      void saveData(int index) {
+        dbHelper
+            .insert(
+          Product(
+            id: items[index].id,
+            name: items[index].name,
+            category: items[index].category,
+            description: items[index].description,
+            price: items[index].price,
+            quantity: items[index].quantity,
+            image: items[index].image,
+          ),
+        );
+      }
       final favoriteProvider = context.watch<FavoriteProvider>();
       final cartProvider = context.watch<CartProvider>();
       return GestureDetector(
@@ -126,7 +142,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   GestureDetector(
-                    onTap: () => favoriteProvider.toggleFavorite(items[index]),
+                    onTap: () {
+                      saveData(index);
+                    },
                     child: Icon(
                       favoriteProvider.isExist(items[index])
                           ? Icons.favorite
