@@ -14,14 +14,18 @@ class DBHelper {
 
   initDatabase() async {
     io.Directory directory = await getApplicationDocumentsDirectory();
-    String path = join(directory.path, 'favorite');
+    String path = join(directory.path, 'fixable');
     var db = await openDatabase(path, version: 1, onCreate: onCreate);
     return db;
   }
 
+// Ошибка была в """ковычках""" при создании таблицы, я проверил несколько раз,
+// очищал кэш, менял названия таблиц, чистил эмулятор, вроде все работает
+// Если вдруг будет ошибка - замените "fixable" на новую таблицу.
+
   onCreate(Database db, int version) async {
-    await db.execute("""
-        'CREATE TABLE favorite('
+    await db.execute(
+        'CREATE TABLE fixable('
             'id INTEGER PRIMARY KEY,'
             'name TEXT,'
             'price REAL,'
@@ -29,24 +33,24 @@ class DBHelper {
             'description TEXT,'
             'category TEXT,'
             'quantity INTEGER)'
-    """);
+    );
   }
 
   Future<Product> insert(Product product) async {
     var dbClient = await database;
-    await dbClient.insert('favorite', product.toJson());
+    await dbClient.insert('fixable', product.toJson());
     return product;
   }
 
   Future<List<Product>> getFavoriteList() async {
     var dbClient = await database;
     final List<Map<String, Object?>> queryResult =
-      await dbClient.query('favorite');
+      await dbClient.query('fixable');
     return queryResult.map((result) => Product.fromJson(result)).toList();
   }
 
   Future<int> deleteFavoriteItem(int id) async {
     var dbClient = await database;
-    return await dbClient.delete('favorite', where: 'id = ?', whereArgs: [id]);
+    return await dbClient.delete('fixable', where: 'id = ?', whereArgs: [id]);
   }
 }

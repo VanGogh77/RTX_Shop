@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_rtx/providers/favorite_provider.dart';
@@ -84,4 +85,4 @@ class _ProductCardState extends State<ProductCard> {
       ),
     );
   }
-}
+}*/

@@ -13,7 +13,6 @@ class FavoriteScreen extends StatefulWidget {
 }
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
-  DBHelper? dbHelper = DBHelper();
 
   @override
   void initState() {
@@ -55,7 +54,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                       children: [
                         SlidableAction(
                           onPressed: (context) {
-                            dbHelper!.deleteFavoriteItem(
+                            DBHelper()!.deleteFavoriteItem(
                               provider.favorites[index].id
                             );
                             finalList.removeAt(index);

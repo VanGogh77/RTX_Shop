@@ -6,7 +6,6 @@ import 'package:shop_rtx/models/product.dart';
 
 
 class FavoriteProvider extends ChangeNotifier {
-  DBHelper dbHelper = DBHelper();
   List<Product> _favorites = [];
   List<Product> get favorites => _favorites;
 
@@ -34,10 +33,11 @@ class FavoriteProvider extends ChangeNotifier {
     );
   }
 
-  Future<List<Product>> getData() async {
-    _favorites = await dbHelper.getFavoriteList();
+// Это все таки инициатор для загрузки _favorites )))
+
+  Future<void> getData() async {
+    _favorites = await DBHelper().getFavoriteList();
     notifyListeners();
-    return _favorites;
   }
 
   void removeItem(int id) {

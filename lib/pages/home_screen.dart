@@ -20,7 +20,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  DBHelper dbHelper = DBHelper();
   List<Product> items = [];
 
   Future<List<Product>> readJson() async {
@@ -106,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
     itemBuilder: (context, index) {
       final favorite = Provider.of<FavoriteProvider>(context);
       void saveData(int index) {
-        dbHelper
+        DBHelper()
             .insert(
           Product(
             id: items[index].id,
