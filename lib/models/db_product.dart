@@ -19,10 +19,6 @@ class DBHelper {
     return db;
   }
 
-// Ошибка была в """ковычках""" при создании таблицы, я проверил несколько раз,
-// очищал кэш, менял названия таблиц, чистил эмулятор, вроде все работает
-// Если вдруг будет ошибка - замените "fixable" на новую таблицу.
-
   onCreate(Database db, int version) async {
     await db.execute(
         'CREATE TABLE fixable('
@@ -36,7 +32,7 @@ class DBHelper {
     );
   }
 
-  Future<Product> insert(Product product) async {
+  /*Future<Product> insert(Product product) async {
     var dbClient = await database;
     await dbClient.insert('fixable', product.toJson());
     return product;
@@ -52,5 +48,5 @@ class DBHelper {
   Future<int> deleteFavoriteItem(int id) async {
     var dbClient = await database;
     return await dbClient.delete('fixable', where: 'id = ?', whereArgs: [id]);
-  }
+  }*/
 }

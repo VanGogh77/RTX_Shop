@@ -1,15 +1,11 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_rtx/models/db_product.dart';
-
 import 'package:shop_rtx/models/product.dart';
+import 'package:shop_rtx/pages/details_screen.dart';
 import 'package:shop_rtx/providers/cart_provider.dart';
 import 'package:shop_rtx/providers/favorite_provider.dart';
-
-import 'details_screen.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -103,28 +99,14 @@ class _HomeScreenState extends State<HomeScreen> {
     scrollDirection: Axis.vertical,
     itemCount: items.length,
     itemBuilder: (context, index) {
-      final favorite = Provider.of<FavoriteProvider>(context);
-      void saveData(int index) {
-        DBHelper()
-            .insert(
-          Product(
-            id: items[index].id,
-            name: items[index].name,
-            category: items[index].category,
-            description: items[index].description,
-            price: items[index].price,
-            quantity: items[index].quantity,
-            image: items[index].image,
-          ),
-        );
-      }
       final favoriteProvider = context.watch<FavoriteProvider>();
       final cartProvider = context.watch<CartProvider>();
+      final product = items[index];
       return GestureDetector(
           onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => DetailsScreen(product: items[index]),
+              builder: (context) => DetailsScreen(product: product),
             ),
           ),
         child: Container(
@@ -142,10 +124,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      saveData(index);
+                      favoriteProvider.toggleFavorite(product);
                     },
                     child: Icon(
-                      favoriteProvider.isExist(items[index])
+                      favoriteProvider.isExist(product)
                           ? Icons.favorite
                           : Icons.favorite_border_outlined,
                       color: Colors.red,
@@ -157,19 +139,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 125,
                 width: 125,
                 child: Image.asset(
-                  items[index].image,
+                  product.image,
                   fit: BoxFit.cover,
                 ),
               ),
               Text(
-                items[index].name,
+                product.name,
                 style: const TextStyle(
                   fontSize: 14,
                   color: Colors.green,
                 ),
               ),
               Text(
-                items[index].category,
+                product.category,
                 style: const TextStyle(
                   fontSize: 14,
                   color: Colors.lightGreen,
@@ -181,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '\$' '${items[index].price}',
+                      '\$' '${product.price}',
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -189,9 +171,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () => cartProvider.toggleProduct(items[index]),
+                      onTap: () => cartProvider.toggleProduct(product),
                       child: Icon(
-                        cartProvider.isExist(items[index])
+                        cartProvider.isExist(product)
                             ? Icons.shopping_cart
                             : Icons.shopping_cart_checkout_outlined,
                         color: Colors.red,
