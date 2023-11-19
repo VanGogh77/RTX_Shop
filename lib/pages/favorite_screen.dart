@@ -21,7 +21,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = FavoriteProvider.of(context);
+    final provider = context.watch<FavoriteProvider>();
     final finalList = provider.favorites;
     return Scaffold(
       body: Column(
@@ -53,11 +53,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                       children: [
                         SlidableAction(
                           onPressed: (context) {
-                            provider.deleteFavoriteItem(
-                                finalList[index].id
-                            );
-                            finalList.removeAt(index);
-                            setState(() {});
+                            provider.removeItem(finalList[index].id);
+                            //finalList.removeAt(index);
+                            //setState(() {});
                           },
                           backgroundColor: Colors.red,
                           foregroundColor: Colors.white,

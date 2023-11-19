@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_rtx/models/db_product.dart';
+import 'package:shop_rtx/models/db_helper.dart';
 import 'package:shop_rtx/models/product.dart';
 
 
@@ -10,7 +10,7 @@ class FavoriteProvider extends ChangeNotifier {
   final _dbHelper = DBHelper();
 
   void toggleFavorite(Product product) {
-    insert(Product(
+    _dbHelper.insert(Product(
       id: product.id,
       name: product.name,
       category: product.category,
@@ -43,31 +43,12 @@ class FavoriteProvider extends ChangeNotifier {
   }
 
   Future<void> init() async {
-    _favorites = await getFavoriteList();
+    _favorites = await _dbHelper.getFavoriteList();
     notifyListeners();
   }
 
-  void removeItem(int id) {
-    final index = _favorites.indexWhere((product) => product.id == id);
-    _favorites.removeAt(index);
+  void removeItem(int id) async {
+    _favorites = (await _dbHelper.deleteFavoriteItem(id)) as List<Product>;
     notifyListeners();
-  }
-
-  Future<Product> insert(Product product) async {
-    var dbClient = await _dbHelper.database;
-    await dbClient.insert('fixable', product.toJson());
-    return product;
-  }
-
-  Future<List<Product>> getFavoriteList() async {
-    var dbClient = await _dbHelper.database;
-    final List<Map<String, Object?>> queryResult =
-    await dbClient.query('fixable');
-    return queryResult.map((result) => Product.fromJson(result)).toList();
-  }
-
-  Future<int> deleteFavoriteItem(int id) async {
-    var dbClient = await _dbHelper.database;
-    return await dbClient.delete('fixable', where: 'id = ?', whereArgs: [id]);
   }
 }
