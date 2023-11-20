@@ -10,6 +10,11 @@ class FavoriteProvider extends ChangeNotifier {
   final _dbHelper = DBHelper();
 
   void toggleFavorite(Product product) {
+    if (_favorites.contains(product)) {
+      _favorites.remove(product);
+    } else {
+      _favorites.add(product);
+    }
     _dbHelper.insert(Product(
       id: product.id,
       name: product.name,
@@ -19,11 +24,6 @@ class FavoriteProvider extends ChangeNotifier {
       quantity: product.quantity,
       image: product.image,
     ));
-    if (_favorites.contains(product)) {
-      _favorites.remove(product);
-    } else {
-      _favorites.add(product);
-    }
     notifyListeners();
   }
 
@@ -48,7 +48,8 @@ class FavoriteProvider extends ChangeNotifier {
   }
 
   void removeItem(int id) async {
-    _favorites = (await _dbHelper.deleteFavoriteItem(id)) as List<Product>;
+    await _dbHelper.deleteFavoriteItem(id);
+    _favorites.removeWhere((product) => product.id == id);
     notifyListeners();
   }
 }
