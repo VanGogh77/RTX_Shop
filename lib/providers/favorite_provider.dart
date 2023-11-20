@@ -9,6 +9,11 @@ class FavoriteProvider extends ChangeNotifier {
   List<Product> get favorites => _favorites;
   final _dbHelper = DBHelper();
 
+  /*@override
+  void initState() {
+    init();
+  }*/
+
   void toggleFavorite(Product product) {
     if (_favorites.contains(product)) {
       _favorites.remove(product);

@@ -19,7 +19,6 @@ class DBHelper {
     return db;
   }
 
-  // Если что - менять таблицу
   onCreate(Database db, int version) async {
     await db.execute(
         'CREATE TABLE fixable('

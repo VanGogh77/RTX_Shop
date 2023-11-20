@@ -54,8 +54,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                         SlidableAction(
                           onPressed: (context) {
                             provider.removeItem(finalList[index].id);
-                            //finalList.removeAt(index);
-                            //setState(() {});
                           },
                           backgroundColor: Colors.red,
                           foregroundColor: Colors.white,
