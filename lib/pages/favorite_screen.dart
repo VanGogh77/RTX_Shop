@@ -12,13 +12,6 @@ class FavoriteScreen extends StatefulWidget {
 }
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
-
-  @override
-  void initState() {
-    super.initState();
-    context.read<FavoriteProvider>().init();
-  }
-
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<FavoriteProvider>();

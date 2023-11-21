@@ -9,26 +9,22 @@ class FavoriteProvider extends ChangeNotifier {
   List<Product> get favorites => _favorites;
   final _dbHelper = DBHelper();
 
-  /*@override
-  void initState() {
-    init();
-  }*/
-
   void toggleFavorite(Product product) {
-    if (_favorites.contains(product)) {
-      _favorites.remove(product);
+    if (_favorites.any((element) => element.id == product.id)) {
+      _favorites.removeWhere((element) => element.id == product.id);
+      _dbHelper.deleteFavoriteItem(product.id);
     } else {
       _favorites.add(product);
+      _dbHelper.insert(Product(
+        id: product.id,
+        name: product.name,
+        category: product.category,
+        description: product.description,
+        price: product.price,
+        quantity: product.quantity,
+        image: product.image,
+      ));
     }
-    _dbHelper.insert(Product(
-      id: product.id,
-      name: product.name,
-      category: product.category,
-      description: product.description,
-      price: product.price,
-      quantity: product.quantity,
-      image: product.image,
-    ));
     notifyListeners();
   }
 

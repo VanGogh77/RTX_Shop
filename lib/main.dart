@@ -36,12 +36,17 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  @override
+  void initState() {
+    context.read<FavoriteProvider>().init();
+    super.initState();
+  }
 
   int currentIndex = 0;
   List <Widget>screens = [
