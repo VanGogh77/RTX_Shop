@@ -45,6 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     context.read<FavoriteProvider>().init();
+    context.read<CartProvider>().init();
     super.initState();
   }
 

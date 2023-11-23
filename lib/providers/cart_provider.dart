@@ -1,19 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_rtx/models/db_helper.dart';
 import 'package:shop_rtx/models/product.dart';
 
 class CartProvider extends ChangeNotifier {
   List<Product> items = [];
   List<Product> get cart => items;
+  final _dbHelper = DBHelper();
 
   void toggleProduct(Product product) {
     if (items.contains(product)) {
       for (Product element in items) {
         element.quantity++;
       }
+    _dbHelper.deleteCartItem(product.id);
     } else {
       items.add(product);
+      _dbHelper.insertCart(Product(
+        id: product.id,
+        name: product.name,
+        category: product.category,
+        description: product.description,
+        price: product.price,
+        quantity: product.quantity,
+        image: product.image,
+      ));
     }
+    notifyListeners();
+  }
+
+  Future<void> init() async {
+    items = await _dbHelper.getCartList();
+    notifyListeners();
+  }
+
+  void removeItem(int id) async {
+    await _dbHelper.deleteCartItem(id);
+    items.removeWhere((product) => product.id == id);
     notifyListeners();
   }
 
@@ -23,7 +46,7 @@ class CartProvider extends ChangeNotifier {
   }
 
   bool isExist(Product product) {
-    final isExist = items.contains(product);
+    final isExist = items.any((element) => element.id == product.id);
     return isExist;
   }
 

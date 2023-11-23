@@ -15,7 +15,7 @@ class CartDetails extends StatefulWidget {
 class _CartDetailsState extends State<CartDetails> {
   @override
   Widget build(BuildContext context) {
-    final provider = CartProvider.of(context);
+    final provider = context.watch<CartProvider>();
     final finalList = provider.cart;
 
     // ignore: no_leading_underscores_for_local_identifiers
@@ -60,8 +60,7 @@ class _CartDetailsState extends State<CartDetails> {
                       children: [
                         SlidableAction(
                           onPressed: (context) {
-                            finalList.removeAt(index);
-                            setState(() {});
+                            provider.removeItem(finalList[index].id);
                           },
                           backgroundColor: Colors.red,
                           foregroundColor: Colors.white,

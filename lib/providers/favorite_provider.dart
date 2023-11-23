@@ -29,7 +29,7 @@ class FavoriteProvider extends ChangeNotifier {
   }
 
   bool isExist(Product product) {
-      final isExist = _favorites.contains(product);
+      final isExist = _favorites.any((element) => element.id == product.id);
       return isExist;
     }
 
