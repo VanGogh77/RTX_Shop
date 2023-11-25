@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_rtx/models/db_helper.dart';
 import 'package:shop_rtx/models/product.dart';
 import 'package:shop_rtx/pages/details_screen.dart';
 import 'package:shop_rtx/providers/cart_provider.dart';
