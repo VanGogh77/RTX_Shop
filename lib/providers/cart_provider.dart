@@ -61,6 +61,7 @@ class CartProvider extends ChangeNotifier {
       } else {
         items.removeAt(index);
       }
+      _dbHelper.deleteCartItem(index);
     }
   }
 
