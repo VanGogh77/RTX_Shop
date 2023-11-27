@@ -172,12 +172,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        cartProvider.toggleProduct(product);
+                        cartProvider.addProduct(product);
                       },
                       child: Icon(
                         cartProvider.isExist(product)
-                            ? Icons.shopping_cart
-                            : Icons.shopping_cart_outlined,
+                            ? Icons.add_shopping_cart
+                            : Icons.add_shopping_cart,
                         color: Colors.red,
                       ),
                     ),

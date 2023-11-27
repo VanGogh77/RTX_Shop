@@ -115,7 +115,7 @@ class DetailsScreen extends StatelessWidget {
               ),
               ElevatedButton.icon(
                 onPressed: () {
-                  provider.toggleProduct(product);
+                  provider.addProduct(product);
                 },
                 icon: const Icon(Icons.shopping_cart),
                 label: const Text('Add to cart'),

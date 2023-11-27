@@ -8,12 +8,13 @@ class CartProvider extends ChangeNotifier {
   List<Product> get cart => items;
   final _dbHelper = DBHelper();
 
-  void toggleProduct(Product product) {
-    if (items.contains(product)) {
+  void addProduct(Product product) {
+    if (items.any((element) => element.id == product.id)) {
       for (Product element in items) {
         element.quantity++;
       }
-    _dbHelper.deleteCartItem(product.id);
+      //items.add(product);
+      _dbHelper.updateQuantity(product);
     } else {
       items.add(product);
       _dbHelper.insertCart(Product(
@@ -60,8 +61,8 @@ class CartProvider extends ChangeNotifier {
         notifyListeners();
       } else {
         items.removeAt(index);
+        _dbHelper.deleteCartItem(index);
       }
-      _dbHelper.deleteCartItem(index);
     }
   }
 

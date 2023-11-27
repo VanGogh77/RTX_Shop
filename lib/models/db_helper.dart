@@ -83,6 +83,12 @@ class DBHelper {
     return queryResult.map((result) => Product.fromJson(result)).toList();
   }
 
+  Future<int> updateQuantity(Product product) async {
+    var dbClient = await database;
+    return await dbClient!.update('cart', product.toJson(),
+        where: "id = ?", whereArgs: [product.id]);
+  }
+
   Future<int> deleteCartItem(int id) async {
     var dbClient = await database;
     return await dbClient!.delete('cart', where: 'id = ?', whereArgs: [id]);

@@ -18,8 +18,7 @@ class _CartDetailsState extends State<CartDetails> {
     final provider = context.watch<CartProvider>();
     final finalList = provider.cart;
 
-    // ignore: no_leading_underscores_for_local_identifiers
-    Widget _buildPRoductQuantity(IconData icon, int index) {
+    Widget buildPRoductQuantity(IconData icon, int index) {
       return GestureDetector(
         onTap: () {
           setState(() {
@@ -94,7 +93,7 @@ class _CartDetailsState extends State<CartDetails> {
                       ),
                       trailing: Column(
                         children: [
-                          _buildPRoductQuantity(Icons.add, index),
+                          buildPRoductQuantity(Icons.add, index),
                           Text(
                             finalList[index].quantity.toString(),
                             style: const TextStyle(
@@ -103,7 +102,7 @@ class _CartDetailsState extends State<CartDetails> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          _buildPRoductQuantity(Icons.remove, index),
+                          buildPRoductQuantity(Icons.remove, index),
                         ],
                       ),
                       tileColor: Colors.grey.shade900,
