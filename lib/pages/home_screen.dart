@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop_rtx/models/product.dart';
 import 'package:shop_rtx/pages/details_screen.dart';
 import 'package:shop_rtx/providers/cart_provider.dart';
@@ -17,6 +18,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<Product> items = [];
+  bool _sortAscending = true;
 
   Future<List<Product>> readJson() async {
     final String response = await rootBundle.loadString('assets/products.json');
@@ -26,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return items.map<Product>((item) => Product.fromJson(item)).toList();
   }
 
-  Future<void> _loadProducts() async {
+  Future<void> loadProducts() async {
     final jsonProducts = await readJson();
     setState(() {
       items.addAll(jsonProducts);
@@ -35,8 +37,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    _loadProducts();
+    loadProducts();
     super.initState();
+  }
+
+  void sortProductPrice(bool product) {
+    setState(() {
+      _sortAscending = product;
+      items.sort((product1, product2) => product
+          ? product1.price.compareTo(product2.price)
+          : product2.price.compareTo(product1.price));
+    });
+  }
+
+  void sortProductsName(bool product) {
+    setState(() {
+      _sortAscending = product;
+      items.sort((product1, product2) => product
+          ? product1.name.compareTo(product2.name)
+          : product2.name.compareTo(product1.name));
+    });
   }
 
   int selectedCategoryIndex = 0;
@@ -56,9 +76,52 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              _buildProductCategory(index: 0, name: 'AllProducts'),
+              InkWell(
+                onTap: () => sortProductPrice(!_sortAscending),
+                child: Row(
+                  children: [
+                    const Text(
+                      'По цене',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green,
+                      ),
+                    ),
+                    // the up/down arrow that indicates the sort order
+                    Icon(
+                      _sortAscending
+                          ? Icons.arrow_drop_up
+                          : Icons.arrow_drop_down,
+                      color: Colors.green.shade300,
+                    ),
+                  ],
+                ),
+              ),
+              InkWell(
+                onTap: () => sortProductsName(!_sortAscending),
+                child: Row(
+                  children: [
+                    const Text(
+                      'По названию',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green,
+                      ),
+                    ),
+                    // the up/down arrow that indicates the sort order
+                    Icon(
+                      _sortAscending
+                          ? Icons.arrow_drop_down
+                          : Icons.arrow_drop_up,
+                      color: Colors.green.shade300,
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 20),
@@ -69,25 +132,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-  Widget _buildProductCategory({required int index, required String name}) =>
-      GestureDetector(
-        onTap: () => setState(() => selectedCategoryIndex = index),
-        child: Container(
-          width: 100,
-          height: 40,
-          margin: const EdgeInsets.only(top: 10, right: 10),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: selectedCategoryIndex == index ? Colors.green.shade900 : Colors.green.shade600,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Text(
-            name,
-            style: const TextStyle(color: Colors.white),
-          ),
-        ),
-      );
 
   Widget _buildAllProducts() => GridView.builder(
     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_rtx/models/product.dart';
+import 'package:shop_rtx/pages/details_screen.dart';
+import 'package:shop_rtx/providers/cart_provider.dart';
 import 'package:shop_rtx/providers/favorite_provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -12,10 +15,12 @@ class FavoriteScreen extends StatefulWidget {
 }
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
+  List<Product> items = [];
   @override
-  Widget build(BuildContext context) {
-    final provider = context.watch<FavoriteProvider>();
-    final finalList = provider.favorites;
+  Widget build(BuildContext context, ) {
+    final favoriteProvider = context.watch<FavoriteProvider>();
+    final cartProvider = context.watch<CartProvider>();
+    final finalList = favoriteProvider.favorites;
     return Scaffold(
       body: Column(
         children: [
@@ -38,15 +43,28 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             child: ListView.builder(
               itemCount: finalList.length,
               itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
+                final product = finalList[index];
+                return GestureDetector(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailsScreen(product: product),
+                    ),
+                  ),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width / 2,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.grey.withOpacity(0.1),
+                    ),
                   child: Slidable(
                     endActionPane: ActionPane(
                       motion: const ScrollMotion(),
                       children: [
                         SlidableAction(
                           onPressed: (context) {
-                            provider.removeItem(finalList[index].id);
+                            favoriteProvider.removeItem(finalList[index].id);
                           },
                           backgroundColor: Colors.red,
                           foregroundColor: Colors.white,
@@ -61,27 +79,34 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
+                          color: Colors.green,
                         )
                       ),
                       subtitle: Text(
                         finalList[index].description,
                         overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.lightGreen,
+                        ),
                       ),
                       leading: CircleAvatar(
                         radius: 30,
                         backgroundColor: Colors.green,
                         backgroundImage: AssetImage(finalList[index].image),
                       ),
-                      trailing: Text(
-                        '\$${finalList[index].price}',
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.add_shopping_cart),
+                        color: Colors.red.shade600,
+                        onPressed: () {
+                          cartProvider.addProduct(product);
+                        },
                       ),
-                      tileColor: Colors.grey.shade700,
+                      tileColor: Colors.grey.shade900,
                     ),
                   ),
+                ),
                 );
               }
             ),
