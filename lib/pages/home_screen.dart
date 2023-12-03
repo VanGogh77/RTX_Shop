@@ -90,7 +90,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Colors.green,
                       ),
                     ),
-                    // the up/down arrow that indicates the sort order
                     Icon(
                       _sortAscending
                           ? Icons.arrow_drop_up
@@ -112,7 +111,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Colors.green,
                       ),
                     ),
-                    // the up/down arrow that indicates the sort order
                     Icon(
                       _sortAscending
                           ? Icons.arrow_drop_down
