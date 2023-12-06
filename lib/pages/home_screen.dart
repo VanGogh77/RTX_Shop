@@ -19,6 +19,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<Product> items = [];
   bool _sortAscending = true;
+  String? dropdownValue;
+  static const sortKey = 'sortKey';
 
   Future<List<Product>> readJson() async {
     final String response = await rootBundle.loadString('assets/products.json');
@@ -39,15 +41,29 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     loadProducts();
     super.initState();
+    _getSort();
   }
 
-  void sortProductPrice(bool product) {
+  Future<void> sortProductPrice(bool product) async {
     setState(() {
       _sortAscending = product;
       items.sort((product1, product2) => product
           ? product1.price.compareTo(product2.price)
           : product2.price.compareTo(product1.price));
     });
+    await _setSort();
+  }
+
+  Future _setSort() async {
+    var prefs = await SharedPreferences.getInstance();
+    prefs.setString(sortKey, jsonEncode(items));
+  }
+
+  Future<Product> _getSort() async {
+    var prefs = await SharedPreferences.getInstance();
+    final context = prefs.getString(sortKey);
+
+    return Product.fromJson(jsonDecode(context!));
   }
 
   void sortProductsName(bool product) {
@@ -78,51 +94,89 @@ class _HomeScreenState extends State<HomeScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              InkWell(
-                onTap: () => sortProductPrice(!_sortAscending),
-                child: Row(
-                  children: [
-                    const Text(
-                      'По цене',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.green,
-                      ),
-                    ),
-                    Icon(
-                      _sortAscending
-                          ? Icons.arrow_drop_up
-                          : Icons.arrow_drop_down,
-                      color: Colors.green.shade300,
-                    ),
-                  ],
+              DropdownButton(
+                dropdownColor: Colors.grey.shade900,
+                value: dropdownValue,
+                icon: const Icon(
+                  Icons.sort,
+                  color: Colors.green,
+                  size: 30,
                 ),
-              ),
-              InkWell(
-                onTap: () => sortProductsName(!_sortAscending),
-                child: Row(
-                  children: [
-                    const Text(
-                      'По названию',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.green,
-                      ),
+                onChanged: (String? value) {
+                  setState(() {
+                    dropdownValue = value;
+                  });
+                },
+                items: [
+                  DropdownMenuItem<String>(
+                    onTap: () => sortProductPrice(!_sortAscending),
+                    value:'PriceMax',
+                    child: const Row(
+                      children: [
+                        Text(
+                          'Дороже',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green,
+                          ),
+                        ),
+                      ],
                     ),
-                    Icon(
-                      _sortAscending
-                          ? Icons.arrow_drop_down
-                          : Icons.arrow_drop_up,
-                      color: Colors.green.shade300,
+                  ),
+                  DropdownMenuItem<String>(
+                    onTap: () => sortProductPrice(!_sortAscending),
+                    value:'PriceMin',
+                    child: const Row(
+                      children: [
+                        Text(
+                          'Дешевле',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  DropdownMenuItem<String>(
+                    onTap: () => sortProductsName(!_sortAscending),
+                    value:'Name2',
+                    child: const Row(
+                      children: [
+                        Text(
+                          'Z-a',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  DropdownMenuItem<String>(
+                    onTap: () => sortProductsName(!_sortAscending),
+                    value:'Name',
+                    child: const Row(
+                      children: [
+                        Text(
+                          'A-z',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 11),
           Expanded(
             child: _buildAllProducts(),
           ),
