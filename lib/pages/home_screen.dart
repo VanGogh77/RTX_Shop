@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     loadProducts();
     super.initState();
-    //_getSort();
+    _getSort();
   }
 
     Future _setSort() async {
@@ -49,13 +49,13 @@ class _HomeScreenState extends State<HomeScreen> {
       prefs.setString(sortKey, jsonEncode(items));
     }
 
-    // Future<Product?> _getSort() async {
-    //   var prefs = await SharedPreferences.getInstance();
-    //   final context = prefs.getString(sortKey);
-    //   if(context == null) return null;
-    //
-    //   return Product.fromJson(jsonDecode(context));
-    // }
+    Future<Product?> _getSort() async {
+      var prefs = await SharedPreferences.getInstance();
+      final context = prefs.getString(sortKey);
+      if(context == null) return null;
+
+      return Product.fromJson(jsonDecode(context));
+    }
 
   Future<void> sortMaxProductPrice(bool product) async {
     setState(() {
