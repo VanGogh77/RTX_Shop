@@ -1,3 +1,4 @@
+
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
@@ -79,19 +80,19 @@ class DBHelper {
   Future<List<Product>> getCartList() async {
     var dbClient = await database;
     final List<Map<String, Object?>> queryResult =
-    await dbClient!.query('cart');
+    await dbClient.query('cart');
     return queryResult.map((result) => Product.fromJson(result)).toList();
   }
 
   Future<int> updateQuantity(Product product) async {
     var dbClient = await database;
-    return await dbClient!.update('cart', product.toJson(),
+    return await dbClient.update('cart', product.toJson(),
         where: "id = ?", whereArgs: [product.id]);
   }
 
   Future<int> deleteCartItem(int id) async {
     var dbClient = await database;
-    return await dbClient!.delete('cart', where: 'id = ?', whereArgs: [id]);
+    return await dbClient.delete('cart', where: 'id = ?', whereArgs: [id]);
   }
 
   Future<Product> insertCart(Product product) async {

@@ -80,8 +80,12 @@ class _MyHomePageState extends State<MyHomePage> {
         onTap: (value) {
           setState(() => currentIndex = value);
         },
-        selectedItemColor: Colors.green.shade700,
-        unselectedItemColor: Colors.grey,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.grey.shade900,
+        backgroundColor: Colors.green.shade800,
+        selectedIconTheme: const IconThemeData(size: 35),
+        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+        showUnselectedLabels: false,
         items: const[
           BottomNavigationBarItem(
             label: 'Home',

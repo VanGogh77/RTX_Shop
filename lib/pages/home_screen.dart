@@ -41,38 +41,52 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     loadProducts();
     super.initState();
-    _getSort();
+    //_getSort();
   }
 
-  Future<void> sortProductPrice(bool product) async {
+    Future _setSort() async {
+      var prefs = await SharedPreferences.getInstance();
+      prefs.setString(sortKey, jsonEncode(items));
+    }
+
+    // Future<Product?> _getSort() async {
+    //   var prefs = await SharedPreferences.getInstance();
+    //   final context = prefs.getString(sortKey);
+    //   if(context == null) return null;
+    //
+    //   return Product.fromJson(jsonDecode(context));
+    // }
+
+  Future<void> sortMaxProductPrice(bool product) async {
     setState(() {
       _sortAscending = product;
-      items.sort((product1, product2) => product
-          ? product1.price.compareTo(product2.price)
-          : product2.price.compareTo(product1.price));
+      items.sort((a, b) => b.price.compareTo(a.price));
     });
     await _setSort();
   }
 
-  Future _setSort() async {
-    var prefs = await SharedPreferences.getInstance();
-    prefs.setString(sortKey, jsonEncode(items));
-  }
-
-  Future<Product> _getSort() async {
-    var prefs = await SharedPreferences.getInstance();
-    final context = prefs.getString(sortKey);
-
-    return Product.fromJson(jsonDecode(context!));
-  }
-
-  void sortProductsName(bool product) {
+  Future<void> sortMinProductPrice(bool product) async {
     setState(() {
       _sortAscending = product;
-      items.sort((product1, product2) => product
-          ? product1.name.compareTo(product2.name)
-          : product2.name.compareTo(product1.name));
+      items.sort((a, b) => a.price.compareTo(b.price));
     });
+    await _setSort();
+  }
+
+  Future<void> sortProductsAlphabetically(bool product) async {
+    setState(() {
+      _sortAscending = product;
+      items.sort((a, b) => a.name.compareTo(b.name));
+    });
+    await _setSort();
+  }
+
+  Future<void> sortProductsReverse(bool product) async {
+    setState(() {
+      _sortAscending = product;
+      items.sort((a, b) => b.name.compareTo(a.name));
+    });
+    await _setSort();
   }
 
   int selectedCategoryIndex = 0;
@@ -109,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 items: [
                   DropdownMenuItem<String>(
-                    onTap: () => sortProductPrice(!_sortAscending),
+                    onTap: () => sortMaxProductPrice(!_sortAscending),
                     value:'PriceMax',
                     child: const Row(
                       children: [
@@ -125,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   DropdownMenuItem<String>(
-                    onTap: () => sortProductPrice(!_sortAscending),
+                    onTap: () => sortMinProductPrice(!_sortAscending),
                     value:'PriceMin',
                     child: const Row(
                       children: [
@@ -141,12 +155,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   DropdownMenuItem<String>(
-                    onTap: () => sortProductsName(!_sortAscending),
-                    value:'Name2',
+                    onTap: () => sortProductsAlphabetically(!_sortAscending),
+                    value:'Name',
                     child: const Row(
                       children: [
                         Text(
-                          'Z-a',
+                          'A-z',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -157,12 +171,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   DropdownMenuItem<String>(
-                    onTap: () => sortProductsName(!_sortAscending),
-                    value:'Name',
+                    onTap: () => sortProductsReverse(!_sortAscending),
+                    value:'Name2',
                     child: const Row(
                       children: [
                         Text(
-                          'A-z',
+                          'Z-a',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
