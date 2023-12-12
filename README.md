@@ -7,7 +7,7 @@ virtual device Pixel 6 Pro on API 33.
 
 Из рабочего уже не только корзина и избранное, а база данных sqflite и чтение данных из файла json)
 
-![preview](https://github.com/VanGogh77/RTX_Shop/assets/120453648/3c2b43dc-24e4-4011-ab92-9da58a7134a1)
+![preview](https://github.com/VanGogh77/RTX_Shop/assets/120453648/6639e734-ab95-4ee9-b52f-c52dc54e27ca)
 
 ## Информация об авторе:
 https://github.com/VanGogh77
