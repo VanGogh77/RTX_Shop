@@ -55,7 +55,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                     width: MediaQuery.of(context).size.width / 2,
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
                       color: Colors.grey.withOpacity(0.1),
                     ),
                   child: Slidable(
