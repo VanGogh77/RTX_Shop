@@ -32,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final jsonProducts = await readJson();
     setState(() {
       items.addAll(jsonProducts);
+      sortMaxProductPrice();
     });
   }
 
@@ -109,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  SortType? mySort;
+  SortType? mySort = SortType.priceUp;
   Widget _createDropdownItem(String title, void Function() sorting) {
     return DropdownButtonHideUnderline(
       child: (DropdownButton(
