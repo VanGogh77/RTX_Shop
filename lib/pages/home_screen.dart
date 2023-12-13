@@ -19,7 +19,6 @@ enum SortType { priceUp, priceDown, alphabet, reverse }
 
 class _HomeScreenState extends State<HomeScreen> {
   List<Product> items = [];
-  bool _sortAscending = true;
 
   Future<List<Product>> readJson() async {
     final String response = await rootBundle.loadString('assets/products.json');
@@ -38,93 +37,75 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    loadProducts();
     super.initState();
-    _getSort();
+    loadProducts();
+    getSort();
   }
 
-  Future _setSort() async {
+  Future<void> setSort(SortType sortType) async {
     var prefs = await SharedPreferences.getInstance();
-    prefs.setString('sort', jsonEncode(items));
+    await prefs.setString('sort', sortType.name);
+    print('Сохранено, value:${sortType}');
   }
 
-  Future<String?> _getSort() async {
+  Future<SortType> getSort() async {
     var prefs = await SharedPreferences.getInstance();
-    final context = prefs.getString('sort');
-    if (context == null) return null;
-    return context;
+    final savedSort = prefs.getString('sort');
+    if (savedSort != null) {
+      print('Загружено, value:${savedSort}');
+      return getSortByName(savedSort);
+    }
+    print('Загружено first');
+    return SortType.alphabet;
   }
 
-  int selectedCategoryIndex = 0;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Products',
-            style: TextStyle(
-              color: Colors.white38,
-              fontSize: 27,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              _createDropdownItem('Sort', () {}),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Expanded(
-            child: _buildAllProducts(),
-          ),
-        ],
-      ),
-    );
+  SortType getSortByName(String name) {
+    for (var sortType in SortType.values) {
+      if (sortType.name == name) {
+        print('Нашел, value:${sortType}');
+        return sortType;
+      }
+    }
+    print('Ничего, value:${SortType}');
+    return SortType.alphabet;
   }
 
-  Future<void> sortMaxProductPrice(bool product) async {
+  Future<void> sortMaxProductPrice() async {
     setState(() {
-      _sortAscending = product;
       items.sort((a, b) => b.price.compareTo(a.price));
     });
   }
 
-  Future<void> sortMinProductPrice(bool product) async {
+  Future<void> sortMinProductPrice() async {
     setState(() {
-      _sortAscending = product;
       items.sort((a, b) => a.price.compareTo(b.price));
     });
   }
 
-  Future<void> sortProductsAlphabetically(bool product) async {
+  Future<void> sortProductsAlphabetically() async {
     setState(() {
-      _sortAscending = product;
       items.sort((a, b) => a.name.compareTo(b.name));
     });
   }
 
-  Future<void> sortProductsReverse(bool product) async {
+  Future<void> sortProductsReverse() async {
     setState(() {
-      _sortAscending = product;
       items.sort((a, b) => b.name.compareTo(a.name));
     });
   }
 
   Future<void> sort(SortType sortType) async {
-    _setSort();
+    setSort(sortType);
+    print('Сортировка, value:${sortType}');
     switch (sortType) {
       case SortType.priceUp:
-        return sortMaxProductPrice(false);
+        return sortMaxProductPrice();
       case SortType.priceDown:
-        return sortMinProductPrice(false);
+        return sortMinProductPrice();
       case SortType.alphabet:
-        return sortProductsAlphabetically(false);
+        return sortProductsAlphabetically();
       case SortType.reverse:
-        return sortProductsReverse(false);
+        return sortProductsReverse();
     }
   }
 
@@ -158,6 +139,37 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             );
           }).toList())),
+    );
+  }
+
+  int selectedCategoryIndex = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Products',
+            style: TextStyle(
+              color: Colors.white38,
+              fontSize: 27,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              _createDropdownItem('sort', () {}),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Expanded(
+            child: _buildAllProducts(),
+          ),
+        ],
+      ),
     );
   }
 

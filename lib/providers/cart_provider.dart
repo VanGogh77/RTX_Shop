@@ -12,12 +12,10 @@ class CartProvider extends ChangeNotifier {
     if (items.any((element) => element.id == product.id)) {
       for (Product element in cart) {
         element.quantity++;
-        print('Pressed add to cart, value: ${element.quantity}');
       }
       _dbHelper.updateQuantity(product);
     } else {
       items.add(product);
-      print('Pressed add to cart, value: ${product.quantity}');
       _dbHelper.insertCart(Product(
         id: product.id,
         name: product.name,
