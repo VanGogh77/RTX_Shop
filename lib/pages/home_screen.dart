@@ -32,7 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final jsonProducts = await readJson();
     setState(() {
       items.addAll(jsonProducts);
-      sortMaxProductPrice();
     });
   }
 
@@ -110,10 +109,18 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  SortType? mySort = SortType.priceUp;
+  SortType? mySort;
   Widget _createDropdownItem(String title, void Function() sorting) {
     return DropdownButtonHideUnderline(
       child: (DropdownButton(
+        hint: const Text(
+            'Newest',
+            style: TextStyle(
+              color: Colors.green,
+              fontSize: 17,
+              fontWeight: FontWeight.bold
+            )
+        ),
           dropdownColor: Colors.grey.shade900,
           icon: const Icon(
             Icons.sort,
