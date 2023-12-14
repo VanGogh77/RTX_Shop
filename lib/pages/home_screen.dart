@@ -15,7 +15,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-enum SortType { priceUp, priceDown, alphabet, reverse }
+enum SortType { newest, priceUp, priceDown, alphabet, reverse }
 
 class _HomeScreenState extends State<HomeScreen> {
   List<Product> items = [];
@@ -30,25 +30,25 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> loadProducts() async {
     final jsonProducts = await readJson();
-    setState(() {
-      items.addAll(jsonProducts);
-    });
+    items.addAll(jsonProducts);
+    final sortType = await loadSort();
+    sort(sortType);
   }
 
   @override
   void initState() {
     super.initState();
     loadProducts();
-    getSort();
+    loadSort();
   }
 
-  Future<void> setSort(SortType sortType) async {
+  Future<void> saveSort(SortType sortType) async {
     var prefs = await SharedPreferences.getInstance();
     await prefs.setString('sort', sortType.name);
     print('Сохранено, value:${sortType}');
   }
 
-  Future<SortType> getSort() async {
+  Future<SortType> loadSort() async {
     var prefs = await SharedPreferences.getInstance();
     final savedSort = prefs.getString('sort');
     if (savedSort != null) {
@@ -94,8 +94,14 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  Future<void> sortProductsDefault() async {
+    setState(() {
+      items.sort((a, b) => a.id.compareTo(b.id));
+    });
+  }
+
   Future<void> sort(SortType sortType) async {
-    setSort(sortType);
+    saveSort(sortType);
     print('Сортировка, value:${sortType}');
     switch (sortType) {
       case SortType.priceUp:
@@ -106,33 +112,27 @@ class _HomeScreenState extends State<HomeScreen> {
         return sortProductsAlphabetically();
       case SortType.reverse:
         return sortProductsReverse();
+      case SortType.newest:
+        return sortProductsDefault();
     }
   }
 
-  SortType? mySort;
+  SortType? mySort = SortType.newest;
   Widget _createDropdownItem(String title, void Function() sorting) {
     return DropdownButtonHideUnderline(
       child: (DropdownButton(
-        hint: const Text(
-            'Newest',
-            style: TextStyle(
-              color: Colors.green,
-              fontSize: 17,
-              fontWeight: FontWeight.bold
-            )
-        ),
           dropdownColor: Colors.grey.shade900,
           icon: const Icon(
             Icons.sort,
             color: Colors.green,
             size: 30,
           ),
-          value: mySort,
           onChanged: (SortType? value) {
             setState(() {
               mySort = value;
             });
           },
+          value: mySort,
           items: SortType.values.map((SortType type) {
             return DropdownMenuItem<SortType>(
               onTap: () => sort(type),
