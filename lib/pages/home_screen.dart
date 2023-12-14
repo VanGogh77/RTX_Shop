@@ -45,28 +45,23 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> saveSort(SortType sortType) async {
     var prefs = await SharedPreferences.getInstance();
     await prefs.setString('sort', sortType.name);
-    print('Сохранено, value:${sortType}');
   }
 
   Future<SortType> loadSort() async {
     var prefs = await SharedPreferences.getInstance();
     final savedSort = prefs.getString('sort');
     if (savedSort != null) {
-      print('Загружено, value:${savedSort}');
       return getSortByName(savedSort);
     }
-    print('Загружено first');
     return SortType.alphabet;
   }
 
   SortType getSortByName(String name) {
     for (var sortType in SortType.values) {
       if (sortType.name == name) {
-        print('Нашел, value:${sortType}');
         return sortType;
       }
     }
-    print('Ничего, value:${SortType}');
     return SortType.alphabet;
   }
 
@@ -102,7 +97,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> sort(SortType sortType) async {
     saveSort(sortType);
-    print('Сортировка, value:${sortType}');
     switch (sortType) {
       case SortType.priceUp:
         return sortMaxProductPrice();
@@ -117,10 +111,18 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  SortType? mySort = SortType.newest;
+  SortType? mySort;
   Widget _createDropdownItem(String title, void Function() sorting) {
     return DropdownButtonHideUnderline(
       child: (DropdownButton(
+          hint: const Text(
+              'newest',
+              style: TextStyle(
+                  color: Colors.green,
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold
+              )
+          ),
           dropdownColor: Colors.grey.shade900,
           icon: const Icon(
             Icons.sort,
